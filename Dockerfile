@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/datascience-notebook:fda564ccbdd6
+FROM quay.io/jupyter/datascience-notebook:2026-11-02
 
 # Install basic packages and libraries as root
 USER root
