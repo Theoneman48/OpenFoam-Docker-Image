@@ -143,9 +143,8 @@ RUN echo "source /usr/lib/openfoam/openfoam2412/etc/bashrc" >> /etc/bash.bashrc
 # Necessary to call paraview via terminal in the desktop (vnc)
 ENV PATH="/opt/bin:$PATH"
 
-# Set working directory when launching container and set up vim
+# Set working directory when launching container
 WORKDIR /home/${NB_USER}
-COPY vimrc /home/${NB_USER}/.vimrc
 
 # Create venv and enable it to allow for pip installations
 RUN chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}
