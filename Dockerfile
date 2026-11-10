@@ -68,31 +68,6 @@ RUN FFTW_VERSION=3.3.10 && cd /tmp && \
 # Setup ParaView
 # Ubuntu24 apt-repository provides v5.11.2 which suffers from XML-parsing bug (https://discourse.paraview.org/t/i-cannot-read-a-vtp-file-i-could-open-yesterday-can-someone-try-to-open-it/13938)
 COPY FileParser_5_9_0.patch .
-RUN PARAVIEW_VERSION=5.13.3 && cd /tmp && \
-    wget https://www.paraview.org/files/v${PARAVIEW_VERSION%??}/ParaView-v${PARAVIEW_VERSION}.tar.gz && \
-    tar -xvf ParaView-v${PARAVIEW_VERSION}.tar.gz && \
-    cd ParaView-v${PARAVIEW_VERSION} && \
-    mv ../../FileParser_5_9_0.patch . && patch -p0 < FileParser_5_9_0.patch && \
-    mkdir build && cd build/ && \
-    cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DPARAVIEW_USE_MPI=ON \
-    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES=ON \
-    -DPARAVIEW_USE_PYTHON=ON \
-    -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5=ON \
-    -DHDF5_IS_PARALLEL=ON \
-    -DHDF5_DIR=/opt/cmake \
-    -DCMAKE_INSTALL_PREFIX=/opt \
-    ../ && \
-    make -j $(nproc) && make install && \
-    cd /tmp && rm -rf ParaView*
-
-# Add examples for paraview visualizations
-# From: https://www.paraview.org/files/data/ParaViewTutorialData-20220629.tar.gz    
-RUN mkdir /examples && \
-    cd /examples && \
-    wget https://www.paraview.org/files/data/ParaViewTutorialData-20220629.tar.gz && \
-    tar -xvf ParaViewTutorialData-20220629.tar.gz --strip-components=1
 
 # Setup OpenFoam
 # From: https://gitlab.com/openfoam/core/openfoam/-/wikis/precompiled/debian
