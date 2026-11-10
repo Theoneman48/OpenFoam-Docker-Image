@@ -64,27 +64,6 @@ RUN FFTW_VERSION=3.3.10 && cd /tmp && \
     make -j$(nproc) && make install && \
     cd /tmp && rm -rf fftw*
 
-# Setup CGNS
-RUN CGNS_VERSION=4.4.0 && cd /tmp && \
-    wget https://github.com/CGNS/CGNS/archive/refs/tags/v${CGNS_VERSION}.tar.gz && \
-    tar -xvf v${CGNS_VERSION}.tar.gz && \
-    cd CGNS-${CGNS_VERSION} && \
-    mkdir build && cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt \
-    -DCGNS_ENABLE_FORTRAN=ON \
-    -DCGNS_ENABLE_64BIT=ON \
-    -DCGNS_BUILD_SHARED=OFF \
-    -DCGNS_USE_SHARED=OFF \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCGNS_BUILD_CGNSTOOLS=OFF \
-    -DCGNS_ENABLE_HDF5=ON \
-    -DHDF5_NEED_MPI=ON \
-    -DCGNS_ENABLE_PARALLEL=OFF \
-    -DCGNS_ENABLE_TESTS=OFF \
-    -DCMAKE_SKIP_RPATH=ON \
-    .. && \
-    make -j$(nproc) && make install && \
-    cd /tmp && rm -rf v* CGNS-*
 
 # Setup ParaView
 # Ubuntu24 apt-repository provides v5.11.2 which suffers from XML-parsing bug (https://discourse.paraview.org/t/i-cannot-read-a-vtp-file-i-could-open-yesterday-can-someone-try-to-open-it/13938)
